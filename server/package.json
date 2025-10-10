@@ -1,10 +1,22 @@
 {
-  "name": "Vibeshare",
+  "name": "vibeshare",
   "version": "1.0.0",
   "description": "Server about my demo app Vibeshare.",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "types/express",
+    "@types/node": "^24.7.1",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "dev": "nodemon --watch src --exec ts-node src/index.ts"
   }
 }
