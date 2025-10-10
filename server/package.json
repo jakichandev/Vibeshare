@@ -1,0 +1,10 @@
+{
+  "name": "Vibeshare",
+  "version": "1.0.0",
+  "description": "Server about my demo app Vibeshare.",
+  "main": "index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^5.9.3"
+  }
+}
