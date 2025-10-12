@@ -1,12 +1,11 @@
-import Express = require("express");
-const cors = require("cors");
-const app = Express();
+import express from "express";
+import cors from "cors";
+const app = express();
 app.use(cors());
 
 
-app.get("/", (req: Express.Request, res: Express.Response) => {
+app.get("/", (req: express.Request, res: express.Response) => {
     res.send("Hello!");
 });
 
-app.listen(3000, () => console.log("Hola"));
-
+app.listen(process.env.SERVER_PORT || 3000, () => console.log("Server in ascolto sulla porta 3000..."));
