@@ -1,11 +1,22 @@
 import express from "express";
-import cors from "cors";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import "dotenv/config";
+
 const app = express();
-app.use(cors());
-
-
-app.get("/", (req: express.Request, res: express.Response) => {
-    res.send("Hello!");
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:5173",
+  },
 });
 
-app.listen(process.env.SERVER_PORT || 3000, () => console.log("Server in ascolto sulla porta 3000..."));
+io.on("connection", (socket) => {
+  console.log("A user connected");
+  socket.on("clientConnection", (data) => console.log(data.msg));
+  socket.on("message/send", (data) => console.log(data));
+});
+
+httpServer.listen(process.env.SERVER_PORT || 3000, () =>
+  console.log(`Server in ascolto sulla porta ${process.env.SERVER_PORT}`)
+);
