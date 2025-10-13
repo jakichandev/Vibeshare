@@ -1,28 +1,32 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 import { socket } from "./Socket";
 import { Chat } from "./components/features/Chat/Chat";
-import type { MsgAuth } from "../../shared/types/Message";
 import { UserSetup } from "./components/features/User/User";
+import type { MsgAuth } from "../../shared/types/Message";
+import { useEffect, useState } from "react";
+import { ChatContext } from "./global/ChatContext";
 
 function App() {
-  
-  const [user, setUser] = useState<MsgAuth>({
-    nickname: "",
-    name: "",
-    surname: "",
-    id: "",
-  });
+  const userFromStorage = localStorage.getItem("user");
+  const user: MsgAuth | undefined = userFromStorage
+    ? JSON.parse(userFromStorage)
+    : undefined;
+
+  const [userOnline, setUserOnline] = useState(user);
+  const [chatActive, activateChat] = useState<boolean>(false);
 
   useEffect(() => {
-    const userSaved = localStorage.getItem("user");
-    if (userSaved) setUser(JSON.parse(userSaved));
-  }, []);
+    console.log(chatActive);
+  }, [chatActive]);
 
-  return user.id ? (
-    <Chat socket={socket} user={user} />
+  return (chatActive && userOnline?.id) ? (
+    <ChatContext.Provider value={{ chatActive, activateChat }}>
+      <Chat socket={socket} user={userOnline} setUserOnline={setUserOnline} />
+    </ChatContext.Provider>
   ) : (
-    <UserSetup setUser={setUser} />
+    <ChatContext.Provider value={{ chatActive, activateChat }}>
+      <UserSetup activateChat={activateChat} />
+    </ChatContext.Provider>
   );
 }
 

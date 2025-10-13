@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import "dotenv/config";
+import type { MsgAuth } from "../../shared/types/Message/index";
 
 const app = express();
 const httpServer = createServer(app);
@@ -12,8 +13,18 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected");
-  socket.on("clientConnection", (data) => console.log(data.msg));
+  let users: MsgAuth[] = [];
+
+  socket.on("connection/active", (data) => console.log(data.msg));
+
+  socket.on("user/new", (user: MsgAuth) => {
+    users.push(user);
+    console.log(user);
+  });
+  socket.on("users", (data) => {
+    socket.emit("users/list", users);
+  });
+
   socket.on("message/send", (data) => console.log(data));
 });
 
