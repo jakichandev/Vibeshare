@@ -6,7 +6,7 @@ export interface UserError {
 }
 
 export interface User {
-  id: string;
+  id?: string;
   nickname: string;
   name?: string;
   surname?: string;

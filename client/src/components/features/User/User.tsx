@@ -1,17 +1,23 @@
-import React, { useState } from "react";
-import { socket } from "../../../Socket";
+import React, { useEffect, useState } from "react";
 import type { User } from "../../../../../shared/types/User";
 import { useUser } from "../../../global/hooks/useUser";
+import { useSocket } from "../../../global/hooks/useSocket";
 
 export const UserSetup = () => {
-  const { setUser }  = useUser();
+  const { setUser } = useUser();
+  const { socket } = useSocket();
+
   const [userCreator, setUserCreator] = useState<User>({
     nickname: "",
     name: "",
     surname: "",
     id: Math.floor(Math.random() * 30000).toString(),
-    logged: false
+    logged: false,
   });
+
+  useEffect(() => {
+    setUserCreator(userCreator);
+  }, [userCreator]);
 
   const changeUser = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -19,9 +25,6 @@ export const UserSetup = () => {
   ) => {
     event.preventDefault();
     const value: string = event.target.value;
-    if (!value || value.length < 3) {
-      return;
-    }
     setUserCreator({
       ...userCreator,
       [prop]: value,
@@ -33,10 +36,15 @@ export const UserSetup = () => {
   ) => {
     event.preventDefault();
     if (!userCreator || !userCreator.nickname || !userCreator.id) return;
+    setUserCreator({ ...userCreator, logged: true });
+    setUser({ ...userCreator, logged: true });
     localStorage.setItem("user", JSON.stringify(userCreator));
-    socket.emit("user/new", userCreator);
-    setUser(userCreator);
+    socket?.emit("user/new", userCreator);
   };
+
+  useEffect(() => {
+    setUserCreator(userCreator);
+  }, [userCreator]);
 
   return (
     <section>
@@ -72,6 +80,12 @@ export const UserSetup = () => {
           onClick={(event) => createUser(event)}
         />
       </form>
+      <div>
+        <h4>nickname: {userCreator.nickname}</h4>
+        <p>
+          {userCreator.name} {userCreator.surname}
+        </p>
+      </div>
     </section>
   );
 };

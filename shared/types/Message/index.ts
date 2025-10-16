@@ -5,5 +5,5 @@ export interface Message {
     auth: User;
     hour: number;
     id: string;
-    idSender: string;
+    idSender: string | undefined;
 }
