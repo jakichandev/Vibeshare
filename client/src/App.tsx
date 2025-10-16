@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.css"
 import { Chat } from "./components/features/Chat/Chat";
 import { UserSetup } from "./components/features/User/User";
 import { useUser } from "./global/hooks/useUser";

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import type { User } from "../../../../../shared/types/User";
 import { useUser } from "../../../global/hooks/useUser";
 import { useSocket } from "../../../global/hooks/useSocket";
+import { JoinForm } from "./JoinForm";
+import smile from "../../../assets/svg/smile_1.svg";
 
 export const UserSetup = () => {
   const { setUser } = useUser();
@@ -42,49 +44,23 @@ export const UserSetup = () => {
     socket?.emit("user/new", userCreator);
   };
 
-  useEffect(() => {
-    setUserCreator(userCreator);
-  }, [userCreator]);
-
   return (
     <section>
-      <h1>Iniziamo!</h1>
-      <form>
+      <div className="w-[40rem] fixed mx-[30rem] top-1/2 -translate-y-1/2 box-border rounded-2xl px-14 py-4">
+        <h1 className="mb-8 font-bold tracking-tight text-center">
+          iniziamo
+          <span className="inline-block ml-2.5">
+            <img src={smile} alt="smile icon" width={80} />
+          </span>
+        </h1>
+
+        <JoinForm changeUser={changeUser} createUser={createUser} />
         <div>
-          <label htmlFor="username">Username</label>
-          <input
-            onChange={(event) => changeUser(event, "nickname")}
-            type="text"
-            aria-label="Input to set nickname"
-          ></input>
+          <h4>nickname: {userCreator.nickname}</h4>
+          <p>
+            {userCreator.name} {userCreator.surname}
+          </p>
         </div>
-        <div>
-          <label htmlFor="username">Name</label>
-          <input
-            type="text"
-            aria-label="Input to set name"
-            onChange={(event) => changeUser(event, "name")}
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="username">Surname</label>
-          <input
-            type="text"
-            aria-label="Input to set surname"
-            onChange={(event) => changeUser(event, "surname")}
-          ></input>
-        </div>
-        <input
-          type="submit"
-          value="Entra in chat!"
-          onClick={(event) => createUser(event)}
-        />
-      </form>
-      <div>
-        <h4>nickname: {userCreator.nickname}</h4>
-        <p>
-          {userCreator.name} {userCreator.surname}
-        </p>
       </div>
     </section>
   );

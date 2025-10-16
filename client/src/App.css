@@ -1,42 +1,48 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --default-font-family: "Plus Jakarta Sans", sans-serif;
+  --font-h: "Playwrite GB S", cursive;
+
+  /* Violet theme color */
+  --color-theme-v-50: #f1eff6;
+  --color-theme-v-100: #d8d2e5;
+  --color-theme-v-200: #c0b5d4;
+  --color-theme-v-300: #a797c3;
+  --color-theme-v-400: #8e7ab3;
+  --color-theme-v-500: #755da2;
+  --color-theme-v-600: #604c85;
+  --color-theme-v-700: #4b3c68;
+  --color-theme-v-800: #3b2f52;
+  --color-theme-v-900: #211a2d;
+  --color-theme-v-950: #0c0910;
+
+  /* Green/Yellow theme color */
+  --color-theme-gy-50: #f8ffe6;
+  --color-theme-gy-100: #ebffb8;
+  --color-theme-gy-200: #e2ff96;
+  --color-theme-gy-300: #d1ff5c;
+  --color-theme-gy-400: #c4ff2e;
+  --color-theme-gy-500: #b7ff00;
+  --color-theme-gy-600: #96d100;
+  --color-theme-gy-700: #75a300;
+  --color-theme-gy-800: #547500;
+  --color-theme-gy-900: #334700;
+  --color-theme-gy-950: #121a00;
+
+  /*  */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  @apply bg-theme-v-900 text-theme-gy-200;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+h1, h2, h3, h4, h5 {
+  @apply font-h;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+h1 {
+  @apply text-6xl;
 }

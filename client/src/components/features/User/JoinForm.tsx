@@ -1,0 +1,47 @@
+interface FieldType {
+  changeUser: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    prop: string
+  ) => void;
+  label: string;
+  role: string;
+}
+
+interface FormType {
+  changeUser: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    role: string
+  ) => void;
+  createUser: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
+}
+
+const Field = ({ changeUser, label, role }: FieldType) => {
+  return (
+    <div className="flex flex-col gap-3">
+      <label className="font-bold text-2xl" htmlFor="username">{label}</label>
+      <input
+      className="py-1.5 px-3 bg-theme-v-700 rounded-2xl outline-0 outline-theme-gy-500 outline-offset-1 focus:outline-2 transition-outline duration-100 font-medium placeholder:text-theme-v-200"
+        onChange={(event) => changeUser(event, role)}
+        type="text"
+        aria-label={`Input to set ${role}`}
+        placeholder={`indica il tuo ${role}`}
+      ></input>
+    </div>
+  );
+};
+
+export const JoinForm = ({ changeUser, createUser }: FormType) => {
+  return (
+    <form className="flex flex-col gap-y-3">
+      <Field changeUser={changeUser} role="nickname" label="Nickname" />
+      <Field changeUser={changeUser} role="name" label="Name" />
+      <Field changeUser={changeUser} role="surname" label="Surname" />
+      <input
+      className="bg-theme-v-600 rounded-2xl py-2 cursor-pointer font-bold my-4 text-xl hover:bg-theme-v-700  hover:scale-105 transition-colors duration-150"
+        type="submit"
+        value="entra in chat"
+        onClick={(event) => createUser(event)}
+      />
+    </form>
+  );
+};
