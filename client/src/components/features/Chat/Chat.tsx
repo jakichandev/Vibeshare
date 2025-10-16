@@ -31,6 +31,7 @@ export const Chat = () => {
   };
 
   const disconnect = () => {
+    socket?.emit("user/left", user);
     localStorage.removeItem("user");
     setUser(null);
   };

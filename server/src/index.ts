@@ -29,10 +29,17 @@ io.on("connection", (socket) => {
     if (!users.find((u) => user.nickname === u.nickname)) {
       users.push(user);
     }
-
-    socket.emit("users/list", users);
+    io.emit("users/list", users);
   });
+
+
+  socket.on("user/left", (user: User) => {
+    console.log(`${user.nickname} è adesso uscito`);
+    const usersWithoutUserLeft = users.filter((u) => user.nickname !== u.nickname);
+    io.emit("users/list", usersWithoutUserLeft);
+  })
 });
+
 
 httpServer.listen(process.env.SERVER_PORT || 3000, () =>
   console.log(`Server in ascolto sulla porta ${process.env.SERVER_PORT}`)
