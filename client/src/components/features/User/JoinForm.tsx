@@ -37,7 +37,7 @@ export const JoinForm = ({ changeUser, createUser }: FormType) => {
       <Field changeUser={changeUser} role="name" label="Name" />
       <Field changeUser={changeUser} role="surname" label="Surname" />
       <input
-      className="bg-theme-v-600 rounded-2xl py-2 cursor-pointer font-bold my-4 text-xl hover:bg-theme-v-700  hover:scale-105 transition-colors duration-150"
+      className="bg-theme-gy-400 text-theme-v-800 rounded-2xl py-2 cursor-pointer font-black my-4 text-xl hover:bg-theme-gy-500  hover:scale-[1.02] transition-[colors_transform] duration-150"
         type="submit"
         value="entra in chat"
         onClick={(event) => createUser(event)}
