@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import type { User, UserError } from "../../../../shared/types/User";
+import type { Message } from "../../../../shared/types/Message";
 
 
 export interface UserContextType {
@@ -9,6 +10,9 @@ export interface UserContextType {
   setLoading: (prevLoading: boolean) => void;
   error: UserError;
   setError: (prevError: UserError) => void;
+  userMessages: Message<string>[];
+  setUserMessages: (messages: Message<string>[]) => void;
+
 }
 
 

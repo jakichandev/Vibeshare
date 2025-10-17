@@ -8,6 +8,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [connection, setConnection] = useState<boolean>(false);
   const [usersList, setUsersList] = useState<Array<User>>([]);
+  const [messages, setMessages] = useState<Array<Message<string>>>([]);
 
   useEffect(() => {
     const socketInstance = io("http://localhost:3000", {
@@ -19,19 +20,19 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       setConnection(true);
     });
 
-    socketInstance.on("message/receive", (message: Message) => {
-      console.log(message);
-    })
+    socketInstance.on("message/receive", (message: Message<string>) => {
+      setMessages([...messages, message]);
+    });
 
     socketInstance.on("users/list", (data: User[]) => {
-      console.log(data)
+      console.log(data);
       setUsersList(data);
-    })
+    });
 
     socketInstance.on("users/update", (data: User[]) => {
       setUsersList(data);
-    })
-    
+    });
+
     setSocket(socketInstance);
 
     return () => {
@@ -39,9 +40,17 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
   return (
-    <SocketContext.Provider value={{ socket, connection, usersList, setUsersList }}>
+    <SocketContext.Provider
+      value={{
+        socket,
+        connection,
+        usersList,
+        setUsersList,
+        messages,
+        setMessages,
+      }}
+    >
       {children}
     </SocketContext.Provider>
   );
 };
-

@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
-import type { Message } from "../../../../../shared/types/Message/index";
+import { useEffect, useState, useRef } from "react";
 import { useUser } from "../../../global/hooks/useUser";
 import { Users } from "./Users";
 import { useSocket } from "../../../global/hooks/useSocket";
 import { ChatRoom } from "./ChatRoom";
 import backIcon from "../../../assets/svg/chatBack.svg";
 import sendMsgIcon from "../../../assets/svg/sendMessage.svg";
+import type { User } from "../../../../../shared/types/User";
+import { MessageArea, Message } from "./Message/MessageArea";
 
 export const Chat = () => {
   const [msg, setMsg] = useState("");
   const { user, setUser } = useUser();
-  const { socket, setUsersList, usersList } = useSocket();
+  const { socket, setUsersList, usersList, messages } = useSocket();
+  const messageInput = useRef<null | HTMLInputElement>(null);
 
   useEffect(() => console.log(socket?.id), [socket]);
 
@@ -27,10 +29,23 @@ export const Chat = () => {
     setOnlineUser();
   }, []);
 
-  const sendMessage = ({ text, auth, hour, id, idSender }: Message) => {
+  const sendMessage = ({ text, auth }: { text: string; auth: User }) => {
     if (!text) return;
     if (!auth) return console.log("Errore di autenticazione");
+
+    const now = new Date();
+    const hour = now
+      .toLocaleTimeString("it-IT", {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      .toString();
+
+    const id = Math.floor(Math.random() * 600000);
+    const idSender = auth?.id;
+
     socket?.emit("message/send", { text, auth, hour, id, idSender });
+    messageInput.current!.value = "";
   };
 
   const disconnect = () => {
@@ -52,15 +67,32 @@ export const Chat = () => {
             width={60}
             src={backIcon}
           ></img>
+          <MessageArea>
+         <>
+         {messages.map((m) => (
+          <Message 
+          text={m.text}
+          auth={m.auth}
+          hour={m.hour}
+          />
+         ))}
+         </>
+          </MessageArea>
           <div className="flex flex-col">
-            <div onClick={() => sendMessage({text: msg, auth: user, hour: })} className="w-[calc(100%-2rem)] ml-4 bg-theme-v-700 px-2 py-3 rounded-2xl outline-0 flex items-center absolute bottom-5 left-0 box-border">
+            <div className="w-[calc(100%-2rem)] ml-4 bg-theme-v-700 px-2 py-3 rounded-2xl outline-0 flex items-center absolute bottom-5 left-0 box-border">
               <input
-              placeholder="scrivi un messaggio"
+                placeholder="scrivi un messaggio"
                 className="w-full focus:outline-0"
                 type="text"
                 onChange={(event) => setMsg(event.target.value)}
+                ref={messageInput}
               />
-              <img width={35} src={sendMsgIcon} alt="send message icon" />
+              <img
+                onClick={() => user && sendMessage({ text: msg, auth: user })}
+                width={35}
+                src={sendMsgIcon}
+                alt="send message icon"
+              />
             </div>
           </div>
         </ChatRoom>

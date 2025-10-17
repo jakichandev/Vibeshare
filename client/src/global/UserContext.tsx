@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { User, UserError } from "../../../shared/types/User/index";
+import type { Message } from "../../../shared/types/Message/index";
 import { UserContext } from "./context/User";
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -13,6 +14,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const [loading, setLoading] = useState(false);
+
+  const [userMessages, setUserMessages] = useState<Array<Message<string>>>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -36,7 +39,16 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, loading, setLoading, error, setError }}
+      value={{
+        user,
+        setUser,
+        loading,
+        setLoading,
+        error,
+        setError,
+        userMessages,
+        setUserMessages,
+      }}
     >
       {children}
     </UserContext.Provider>

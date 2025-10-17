@@ -3,6 +3,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import "dotenv/config";
 import type { User } from "../../shared/types/User/index";
+import type { Message } from "../../shared/types/Message/index";
 
 const app = express();
 const httpServer = createServer(app);
@@ -15,8 +16,8 @@ let users: User[] = [];
 io.on("connection", (socket) => {
   console.log("Connected " + socket.id);
 
-  socket.on("message/send", (data) => {
-    console.log(`Messaggio arrivato ${data.text}`);
+  socket.on("message/send", (data: Message<string>) => {
+    console.log(`Messaggio arrivato ${data.text} da ${data.auth.nickname}`);
     socket.emit("message/receive", data);
   });
 
