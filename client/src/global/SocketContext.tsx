@@ -24,9 +24,13 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     })
 
     socketInstance.on("users/list", (data: User[]) => {
+      console.log(data)
       setUsersList(data);
     })
-    
+
+    socketInstance.on("users/update", (data: User[]) => {
+      setUsersList(data);
+    })
     
     setSocket(socketInstance);
 

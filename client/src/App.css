@@ -4,6 +4,7 @@
 @theme {
   --default-font-family: "Plus Jakarta Sans", sans-serif;
   --font-h: "Playwrite GB S", cursive;
+  --font-p: "Plus Jakarta Sans", sans-serif;
 
   /* Violet theme color */
   --color-theme-v-50: #f1eff6;

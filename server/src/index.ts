@@ -32,14 +32,13 @@ io.on("connection", (socket) => {
     io.emit("users/list", users);
   });
 
-
   socket.on("user/left", (user: User) => {
     console.log(`${user.nickname} è adesso uscito`);
-    const usersWithoutUserLeft = users.filter((u) => user.nickname !== u.nickname);
-    io.emit("users/list", usersWithoutUserLeft);
-  })
-});
+    users = users.filter((u) => user.nickname !== u.nickname);
 
+    io.emit("users/update", users);
+  });
+});
 
 httpServer.listen(process.env.SERVER_PORT || 3000, () =>
   console.log(`Server in ascolto sulla porta ${process.env.SERVER_PORT}`)
