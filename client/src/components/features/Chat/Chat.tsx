@@ -11,7 +11,7 @@ import { MessageArea, Message } from "./Message/MessageArea";
 export const Chat = () => {
   const [msg, setMsg] = useState("");
   const { user, setUser } = useUser();
-  const { socket, setUsersList, usersList, messages } = useSocket();
+  const { socket, setUsersList, usersList, messages, setMessages } = useSocket();
   const messageInput = useRef<null | HTMLInputElement>(null);
 
   useEffect(() => console.log(socket?.id), [socket]);
@@ -28,6 +28,7 @@ export const Chat = () => {
     };
     setOnlineUser();
   }, []);
+
 
   const sendMessage = ({ text, auth }: { text: string; auth: User }) => {
     if (!text) return;
@@ -62,21 +63,16 @@ export const Chat = () => {
         <Users />
         <ChatRoom>
           <img
-            className="cursor-pointer"
+            className="cursor-pointer absolute top-4 left-4"
             onClick={disconnect}
             width={60}
             src={backIcon}
+            role="button"
           ></img>
           <MessageArea>
-         <>
-         {messages.map((m) => (
-          <Message 
-          text={m.text}
-          auth={m.auth}
-          hour={m.hour}
-          />
-         ))}
-         </>
+            {messages?.map((m) => (
+              <Message key={m.id} text={m.text} auth={m.auth} hour={m.hour} me={user?.nickname === m.auth.nickname ? true : false} />
+            ))}
           </MessageArea>
           <div className="flex flex-col">
             <div className="w-[calc(100%-2rem)] ml-4 bg-theme-v-700 px-2 py-3 rounded-2xl outline-0 flex items-center absolute bottom-5 left-0 box-border">

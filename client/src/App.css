@@ -32,6 +32,8 @@
   --color-theme-gy-900: #334700;
   --color-theme-gy-950: #121a00;
 
+  --inset-shadow-3xl: inset 0 0 35px 20px rgba(0, 0, 0, 0.1); 
+
   /*  */
 }
 
@@ -50,4 +52,8 @@ h5 {
 
 h1 {
   @apply text-6xl;
+}
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }

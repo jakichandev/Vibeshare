@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { User, UserError } from "../../../shared/types/User/index";
-import type { Message } from "../../../shared/types/Message/index";
-import { UserContext } from "./context/User";
+import type { User, UserError } from "../../../../shared/types/User/index";
+import type { Message } from "../../../../shared/types/Message/index";
+import { UserContext } from "../context/User";
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);

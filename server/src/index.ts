@@ -13,12 +13,15 @@ const io = new Server(httpServer, {
   },
 });
 let users: User[] = [];
+let messages: Message<string>[] = [];
 io.on("connection", (socket) => {
   console.log("Connected " + socket.id);
 
   socket.on("message/send", (data: Message<string>) => {
     console.log(`Messaggio arrivato ${data.text} da ${data.auth.nickname}`);
-    socket.emit("message/receive", data);
+    messages.push(data);
+    console.log(messages);
+    io.emit("message/receive", messages);
   });
 
   socket.on("user/new", (user: User) => {

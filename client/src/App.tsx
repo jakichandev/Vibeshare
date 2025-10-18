@@ -7,10 +7,13 @@ import { useUser } from "./global/hooks/useUser";
 
 function App() {
   const { user } = useUser();
-  const {usersList} = useSocket();
+  const {usersList, messages } = useSocket();
+  
   useEffect(() => {
     console.log(usersList);
-  },[usersList])
+    console.log(messages);
+  },[usersList, messages])
+
   return <>{user ? <Chat /> : <UserSetup />}</>;
 }
 
