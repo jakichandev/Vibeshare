@@ -11,10 +11,8 @@ import { MessageArea, Message } from "./Message/MessageArea";
 export const Chat = () => {
   const [msg, setMsg] = useState("");
   const { user, setUser } = useUser();
-  const { socket, setUsersList, usersList, messages, setMessages } = useSocket();
+  const { socket, setUsersList, usersList, messages } = useSocket();
   const messageInput = useRef<null | HTMLInputElement>(null);
-
-  useEffect(() => console.log(socket?.id), [socket]);
 
   useEffect(() => {
     const setOnlineUser = () => {
@@ -29,6 +27,15 @@ export const Chat = () => {
     setOnlineUser();
   }, []);
 
+  useEffect(() => {
+    if (!messages) socket?.emit("messages/get");
+  }, [messages]);
+
+  useEffect(() => {
+    return () => {
+      socket?.emit("page/refresh", user);
+    };
+  }, []);
 
   const sendMessage = ({ text, auth }: { text: string; auth: User }) => {
     if (!text) return;
@@ -71,7 +78,13 @@ export const Chat = () => {
           ></img>
           <MessageArea>
             {messages?.map((m) => (
-              <Message key={m.id} text={m.text} auth={m.auth} hour={m.hour} me={user?.nickname === m.auth.nickname ? true : false} />
+              <Message
+                key={m.id}
+                text={m.text}
+                auth={m.auth}
+                hour={m.hour}
+                me={user?.nickname === m.auth?.nickname ? true : false}
+              />
             ))}
           </MessageArea>
           <div className="flex flex-col">
@@ -82,6 +95,12 @@ export const Chat = () => {
                 type="text"
                 onChange={(event) => setMsg(event.target.value)}
                 ref={messageInput}
+                onKeyDown={(ev) => {
+                  if (ev.key === "Enter") {
+                    ev.preventDefault();
+                    if (user) sendMessage({ text: msg, auth: user });
+                  }
+                }}
               />
               <img
                 onClick={() => user && sendMessage({ text: msg, auth: user })}

@@ -49,7 +49,7 @@ export const UserSetup = () => {
     <section>
       <div className="w-full md:w-2/4 md:ml-[calc(100vw-75%)] fixed top-1/2 -translate-y-1/2 box-border rounded-2xl px-14 py-4">
         <h1 className="mb-8 font-normal tracking-tight text-center">
-          ciaooo
+          ciao
           <span className="inline-block ml-2.5">
             <img src={smile} alt="smile icon" width={80} />
           </span>

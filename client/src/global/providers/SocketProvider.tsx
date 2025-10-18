@@ -29,6 +29,10 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       }
     );
 
+    socketInstance.on("messages/receive", (messagesFromServer: Message<string>[]) => {
+      setMessages(messagesFromServer);
+    });
+
     socketInstance.on("users/list", (data: User[]) => {
       console.log(data);
       setUsersList(data);

@@ -14,6 +14,7 @@ const io = new Server(httpServer, {
 });
 let users: User[] = [];
 let messages: Message<string>[] = [];
+
 io.on("connection", (socket) => {
   console.log("Connected " + socket.id);
 
@@ -22,6 +23,16 @@ io.on("connection", (socket) => {
     messages.push(data);
     console.log(messages);
     io.emit("message/receive", messages);
+  });
+
+  socket.on("messages/get", () => {
+    console.log("Invio messaggi...");
+    io.emit("messages/receive", messages);
+  });
+
+  socket.on("page/refresh", (user: User) => {
+    console.log(`L'utente ${user.nickname} ha ricaricato la pagina`);
+    socket.emit("messages/receive", messages);
   });
 
   socket.on("user/new", (user: User) => {
