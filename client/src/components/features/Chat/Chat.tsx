@@ -7,6 +7,7 @@ import backIcon from "../../../assets/svg/chatBack.svg";
 import sendMsgIcon from "../../../assets/svg/sendMessage.svg";
 import type { User } from "../../../../../shared/types/User";
 import { MessageArea, Message } from "./Message/MessageArea";
+import { Nav } from "../../Theme/Navbar/Nav";
 
 export const Chat = () => {
   const [msg, setMsg] = useState("");
@@ -53,7 +54,8 @@ export const Chat = () => {
     const idSender = auth?.id;
 
     socket?.emit("message/send", { text, auth, hour, id, idSender });
-    messageInput.current!.value = "";
+    setMsg("");
+    messageInput.current?.focus();
   };
 
   const disconnect = () => {
@@ -65,14 +67,12 @@ export const Chat = () => {
   };
 
   return (
-    <section>
-      <div className="flex flex-col md:flex-row justify-start gap-3 md:justify-center">
-        <Users />
+    <section className="fixed inset-0 md:relative md:inset-auto grid grid-cols-1 grid-rows-[auto_1fr] md:grid-cols-[16vw_1fr_1fr_1fr] md:grid-rows-1 gap-4 p-2 md:p-8 md:h-screen box-border overflow-hidden">
+      <Nav />
         <ChatRoom>
           <img
-            className="cursor-pointer absolute top-4 left-4"
+            className="cursor-pointer absolute top-4 left-4 z-3 w-16"
             onClick={disconnect}
-            width={60}
             src={backIcon}
             role="button"
           ></img>
@@ -86,13 +86,15 @@ export const Chat = () => {
                 me={user?.nickname === m.auth?.nickname ? true : false}
               />
             ))}
+            <li aria-hidden className="h-28 md:h-28" />
           </MessageArea>
-          <div className="flex flex-col">
-            <div className="w-[calc(100%-2rem)] ml-4 bg-theme-v-700 px-3 py-4 rounded-2xl outline-0 flex items-center fixed md:absolute bottom-4 left-0 box-border">
+          <div className="absolute inset-x-0 bottom-0 p-4 bg-theme-v-900">
+            <div className="w-full bg-theme-v-700 px-3 py-4 rounded-2xl flex items-center gap-2">
               <input
                 placeholder="scrivi un messaggio"
-                className="w-full focus:outline-0"
+                className="w-full focus:outline-0 bg-transparent"
                 type="text"
+                value={msg}
                 onChange={(event) => setMsg(event.target.value)}
                 ref={messageInput}
                 onKeyDown={(ev) => {
@@ -107,11 +109,11 @@ export const Chat = () => {
                 width={35}
                 src={sendMsgIcon}
                 alt="send message icon"
+                className="cursor-pointer shrink-0"
               />
             </div>
           </div>
         </ChatRoom>
-      </div>
     </section>
   );
 };

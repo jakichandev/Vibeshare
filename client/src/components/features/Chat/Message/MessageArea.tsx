@@ -2,7 +2,7 @@ import type React from "react";
 
 import type { User } from "../../../../../../shared/types/User";
 import { useSocket } from "../../../../global/hooks/useSocket";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface MessageProps {
   text: string;
@@ -22,14 +22,14 @@ export const Message = ({ text, auth, hour, me }: MessageProps) => {
   return (
     <li
       aria-label="message bubble"
-      className={`${me ? messageStyles["me"] : messageStyles["they"]} last:mb-20 animate-message-enter`}
+      className={`${me ? messageStyles["me"] : messageStyles["they"]} last:mb-20 animate-message-enter motion-reduce:animate-none`}
     >
       <div className="relative">
         <div
           className={me ? messageStyles["profileMe"] : messageStyles["profileThey"]}
         >
-          <div className="w-12 h-12 rounded-full bg-theme-v-800"></div>
-          <span className="text-theme-v-800 font-black text-ellipsis overflow-hidden whitespace-nowrap text-center w-12 text-sm">
+          <div className="w-12 h-12 rounded-full bg-theme-v-400"></div>
+          <span className="text-theme-v-400 font-black text-ellipsis overflow-hidden whitespace-nowrap text-center w-12 text-sm">
             {auth?.nickname}
           </span>
         </div>
@@ -45,23 +45,32 @@ export const Message = ({ text, auth, hour, me }: MessageProps) => {
 export const MessageArea = ({ children }: { children: React.ReactNode }) => {
   const { messages } = useSocket();
   const scrollable = useRef<HTMLElement | null>(null);
+  const [hasTopShadow, setHasTopShadow] = useState(false);
 
   useEffect(() => {
     const el = scrollable.current;
     if (!el) return;
     requestAnimationFrame(() => {
-      el.scrollTo({
-        top: el.scrollHeight,
-        behavior: "smooth",
-      });
+      el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+      setHasTopShadow(el.scrollTop > 0);
     });
   }, [messages]);
+
+  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
+    const el = e.currentTarget;
+    setHasTopShadow(el.scrollTop > 0);
+  };
 
   return (
     <section
       ref={scrollable}
-      className="relative w-full h-[80%] rounded-2xl overflow-y-scroll py-8 px-2 my-18 bg-theme-v-100 no-scrollbar"
+      onScroll={handleScroll}
+      className="relative flex-1 overflow-y-auto pt-16 px-6 no-scrollbar pb-28 md:pb-28"
     >
+      {/* sfumatura in alto quando ci sono messaggi precedenti */}
+      <div
+        className={`pointer-events-none absolute inset-x-0 top-0 h-6 md:h-8 bg-gradient-to-b from-theme-v-900/80 to-transparent transition-opacity duration-200 ${hasTopShadow ? "opacity-100" : "opacity-0"}`}
+      />
       <ul className="flex flex-col gap-20">{children}</ul>
     </section>
   );
