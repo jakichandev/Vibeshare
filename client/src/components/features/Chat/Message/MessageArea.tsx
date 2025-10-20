@@ -60,7 +60,7 @@ export const MessageArea = ({ children }: { children: React.ReactNode }) => {
   return (
     <section
       ref={scrollable}
-      className="w-[80%] h-[45rem] rounded-2xl overflow-y-scroll pt-8 px-6 bg-theme-v-100 no-scrollbar"
+      className="relative w-full h-[80%] rounded-2xl overflow-y-scroll py-8 px-2 my-18 bg-theme-v-100 no-scrollbar"
     >
       <ul className="flex flex-col gap-20">{children}</ul>
     </section>

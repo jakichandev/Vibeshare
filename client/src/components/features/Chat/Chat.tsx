@@ -66,7 +66,7 @@ export const Chat = () => {
 
   return (
     <section>
-      <div className="flex gap-3 w-3/4 justify-center mx-auto">
+      <div className="flex flex-col md:flex-row justify-start gap-3 md:justify-center">
         <Users />
         <ChatRoom>
           <img
@@ -88,7 +88,7 @@ export const Chat = () => {
             ))}
           </MessageArea>
           <div className="flex flex-col">
-            <div className="w-[calc(100%-2rem)] ml-4 bg-theme-v-700 px-2 py-3 rounded-2xl outline-0 flex items-center absolute bottom-5 left-0 box-border">
+            <div className="w-[calc(100%-2rem)] ml-4 bg-theme-v-700 px-3 py-4 rounded-2xl outline-0 flex items-center fixed md:absolute bottom-4 left-0 box-border">
               <input
                 placeholder="scrivi un messaggio"
                 className="w-full focus:outline-0"
