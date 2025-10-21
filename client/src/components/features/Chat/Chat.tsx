@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import { useUser } from "../../../global/hooks/useUser";
-import { Users } from "./Users";
 import { useSocket } from "../../../global/hooks/useSocket";
 import { ChatRoom } from "./ChatRoom";
 import backIcon from "../../../assets/svg/chatBack.svg";

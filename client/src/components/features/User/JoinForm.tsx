@@ -1,48 +1,75 @@
-interface FieldType {
-  changeUser: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    prop: string
+import React from "react";
+import { Field } from "./Field";
+import { SelectAvatar } from "./Avatar/SelectAvatar";
+interface JoinFormProps {
+  nickname: string;
+  name: string;
+  surname: string;
+  avatar: string;
+  onChange: (
+    prop: "nickname" | "name" | "surname" | "avatar",
+    value: string
   ) => void;
-  label: string;
-  role: string;
+  onSubmit: () => void;
 }
 
-interface FormType {
-  changeUser: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    role: string
-  ) => void;
-  createUser: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
-}
+export const JoinForm: React.FC<JoinFormProps> = ({
+  nickname,
+  name,
+  surname,
+  avatar,
+  onChange,
+  onSubmit,
+}) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit();
+  };
 
-const Field = ({ changeUser, label, role }: FieldType) => {
-  return (
-    <div className="flex flex-col gap-3">
-      <label className="font-bold text-2xl" htmlFor="username">
-        {label}
-      </label>
-      <input
-        className="p-5 bg-theme-v-700 rounded-2xl outline-0 outline-theme-gy-500 outline-offset-1 focus:outline-2 transition-outline duration-100 font-medium placeholder:text-theme-v-200"
-        onChange={(event) => changeUser(event, role)}
-        type="text"
-        aria-label={`Input to set ${role}`}
-        placeholder={`indica il tuo ${role}`}
-      ></input>
-    </div>
-  );
-};
+  const canSubmit = Boolean(nickname?.trim());
 
-export const JoinForm = ({ changeUser, createUser }: FormType) => {
   return (
-    <form className="flex flex-col gap-y-3">
-      <Field changeUser={changeUser} role="nickname" label="Nickname" />
-      <Field changeUser={changeUser} role="name" label="Name" />
-      <Field changeUser={changeUser} role="surname" label="Surname" />
-      <input
-        className="bg-theme-gy-400 text-theme-v-800 rounded-2xl py-4 cursor-pointer font-black my-4 text-2xl hover:bg-theme-gy-500  hover:scale-[1.02] transition-[colors_transform] duration-150 tracking-tight"
+    <form onSubmit={handleSubmit} className="grid gap-4 sm:gap-5" noValidate>
+      <Field
+        label="Nickname"
+        value={nickname}
+        placeholder="Inserisci il tuo nickname"
+        onChange={(value) => onChange("nickname", value)}
+        required
+      />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Field
+          label="Nome"
+          value={name}
+          placeholder="Nome"
+          onChange={(value) => onChange("name", value)}
+        />
+        <Field
+          label="Cognome"
+          value={surname}
+          placeholder="Cognome"
+          onChange={(value) => onChange("surname", value)}
+        />
+      </div>
+
+      <button
         type="submit"
-        value="inizia a chattare"
-        onClick={(event) => createUser(event)}
+        disabled={!canSubmit}
+        className="
+          mt-2 w-full rounded-xl px-4 py-3
+          bg-theme-v-700 text-white font-semibold text-base
+          hover:bg-theme-v-600 active:scale-[0.98]
+          transition-all duration-150
+          disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-theme-v-700
+          focus:outline-none focus:ring-2 focus:ring-theme-gy-200 focus:ring-offset-2 focus:ring-offset-theme-v-900
+        "
+      >
+        Entra in chat
+      </button>
+      <SelectAvatar
+        avatar={avatar}
+        onChange={(value) => onChange("avatar", value)}
       />
     </form>
   );

@@ -3,12 +3,15 @@ import type React from "react";
 import type { User } from "../../../../../../shared/types/User";
 import { useSocket } from "../../../../global/hooks/useSocket";
 import { useEffect, useRef, useState } from "react";
+import { Avatar } from "../../User/Avatar/SelectAvatar";
+import anonAvatar from "../../../../assets/svg/avatars/avatar_anon.svg";
 
 export interface MessageProps {
   text: string;
   auth: User;
   hour: string;
   me: boolean;
+  avatar?: string;
 }
 
 const messageStyles = {
@@ -22,13 +25,22 @@ export const Message = ({ text, auth, hour, me }: MessageProps) => {
   return (
     <li
       aria-label="message bubble"
-      className={`${me ? messageStyles["me"] : messageStyles["they"]} last:mb-20 animate-message-enter motion-reduce:animate-none`}
+      className={`${
+        me ? messageStyles["me"] : messageStyles["they"]
+      } last:mb-20 animate-message-enter motion-reduce:animate-none`}
     >
       <div className="relative">
         <div
-          className={me ? messageStyles["profileMe"] : messageStyles["profileThey"]}
+          className={
+            me ? messageStyles["profileMe"] : messageStyles["profileThey"]
+          }
         >
-          <div className="w-12 h-12 rounded-full bg-theme-v-400"></div>
+          <Avatar
+            className="w-14 h-14"
+            id={`${auth?.id} icon`}
+            src={auth?.avatar === "" ? anonAvatar : auth?.avatar}
+            alt={auth?.nickname}
+          />
           <span className="text-theme-v-400 font-black text-ellipsis overflow-hidden whitespace-nowrap text-center w-12 text-sm">
             {auth?.nickname}
           </span>
@@ -69,7 +81,9 @@ export const MessageArea = ({ children }: { children: React.ReactNode }) => {
     >
       {/* sfumatura in alto quando ci sono messaggi precedenti */}
       <div
-        className={`pointer-events-none absolute inset-x-0 top-0 h-6 md:h-8 bg-gradient-to-b from-theme-v-900/80 to-transparent transition-opacity duration-200 ${hasTopShadow ? "opacity-100" : "opacity-0"}`}
+        className={`pointer-events-none absolute inset-x-0 top-0 h-6 md:h-8 bg-gradient-to-b from-theme-v-900/80 to-transparent transition-opacity duration-200 ${
+          hasTopShadow ? "opacity-100" : "opacity-0"
+        }`}
       />
       <ul className="flex flex-col gap-20">{children}</ul>
     </section>

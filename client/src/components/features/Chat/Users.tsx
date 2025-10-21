@@ -2,6 +2,8 @@ import { useSocket } from "../../../global/hooks/useSocket";
 import { useUser } from "../../../global/hooks/useUser";
 import onlineUsersIcon from "../../../assets/svg/onlineUsersList.svg";
 import { useState } from "react";
+import { Avatar } from "../../features/User/Avatar/SelectAvatar";
+import anonAvatar from "../../../assets/svg/avatars/avatar_anon.svg";
 
 export const Users = () => {
   const { user } = useUser();
@@ -63,12 +65,19 @@ export const Users = () => {
             <li
               key={u.id ?? index}
               className={`
+                flex items-center gap-1.5
                 px-2 py-3
                 rounded-lg
                 bg-gradient-to-br from-theme-v-800 via-theme-v-900 to-theme-v-800
                 ${isCurrentUser(u.nickname) ? "outline-1 outline-theme-gy-200" : ""}
               `}
             >
+              <Avatar
+                className="w-14 h-14"
+                id={`${u.id} icon`}
+                src={u.avatar === "" ? anonAvatar : u.avatar}
+                alt={u.nickname}
+              />
               <span className="text-2xl font-bold font-p">
                 {u.nickname}
                 {isCurrentUser(u.nickname) && " •"}

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import type { User } from "../../../../../shared/types/User";
 import { useUser } from "../../../global/hooks/useUser";
 import { useSocket } from "../../../global/hooks/useSocket";
 import { JoinForm } from "./JoinForm";
-import smile from "../../../assets/svg/smile_1.svg";
-import maleUser from "../../../assets/svg/maleUser.svg";
+import { Logo } from "../../Theme/Navbar/Logo"; // se non hai il componente, sostituisci con l'immagine 'smile'
 
 export const UserSetup = () => {
   const { setUser } = useUser();
@@ -16,57 +15,41 @@ export const UserSetup = () => {
     surname: "",
     id: Math.floor(Math.random() * 30000).toString(),
     logged: false,
+    avatar: ""
   });
 
-  useEffect(() => {
-    setUserCreator(userCreator);
-  }, [userCreator]);
-
-  const changeUser = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    prop: string
-  ) => {
-    event.preventDefault();
-    const value: string = event.target.value;
-    setUserCreator({
-      ...userCreator,
-      [prop]: value,
-    });
+  const onChange = (prop: "nickname" | "name" | "surname" | "avatar", value: string) => {
+    setUserCreator((prev) => ({ ...prev, [prop]: value }));
   };
 
-  const createUser = (
-    event: React.MouseEvent<HTMLInputElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    if (!userCreator || !userCreator.nickname || !userCreator.id) return;
-    setUserCreator({ ...userCreator, logged: true });
-    setUser({ ...userCreator, logged: true });
-    localStorage.setItem("user", JSON.stringify(userCreator));
-    socket?.emit("user/new", userCreator);
+  const onSubmit = () => {
+    if (!userCreator?.nickname?.trim()) return;
+    const newUser: User = { ...userCreator, logged: true };
+    setUserCreator(newUser);
+    setUser(newUser);
+    localStorage.setItem("user", JSON.stringify(newUser));
+    socket?.emit("user/new", newUser);
   };
 
   return (
-    <section>
-      <div className="w-full md:w-2/4 md:ml-[calc(100vw-75%)] fixed top-1/2 -translate-y-1/2 box-border rounded-2xl px-14 py-4">
-        <h1 className="mb-8 font-normal tracking-tight text-center">
-          ciao
-          <span className="inline-block ml-2.5">
-            <img src={smile} alt="smile icon" width={80} />
-          </span>
-        </h1>
+    <section className="min-h-[100dvh] flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-xl md:max-w-2xl bg-theme-v-900 rounded-2xl border border-theme-v-800 shadow-[0_8px_30px_rgba(0,0,0,0.20)] p-6 md:p-10">
+        {/* Logo centrato */}
+        <div className="flex flex-col items-center gap-4 mb-6">
+          <Logo />
+          <h1 className="text-center font-normal tracking-tight">
+            <span className="align-middle">ciao</span>
+          </h1>
+        </div>
 
-        <JoinForm changeUser={changeUser} createUser={createUser} />
-      </div>
-      <div className="fixed top-8 left-8">
-        <h4 className="flex items-center gap-2 font-bold text-2xl">
-          <span>
-            <img src={maleUser} width={30}></img>
-          </span>
-          {userCreator.nickname}
-        </h4>
-        <p>
-          {userCreator.name} {userCreator.surname}
-        </p>
+        <JoinForm
+          nickname={userCreator?.nickname ?? ""}
+          name={userCreator?.name ?? ""}
+          surname={userCreator?.surname ?? ""}
+          avatar={userCreator?.avatar ?? ""}
+          onChange={onChange}
+          onSubmit={onSubmit}
+        />
       </div>
     </section>
   );
