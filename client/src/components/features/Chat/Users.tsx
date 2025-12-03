@@ -47,7 +47,7 @@ export const Users = () => {
           left-1/2 md:left-0
           top-20 md:top-0
           -translate-x-1/2 md:translate-x-0
-          w-[calc(100%-2rem)] md:w-full
+          w-[calc(100%-2rem)] md:w-auto
           max-w-md md:max-w-full
           max-h-[calc(100vh-6rem)] md:max-h-full
           border-1 border-theme-v-800 md:border-0
@@ -65,10 +65,8 @@ export const Users = () => {
             <li
               key={u.id ?? index}
               className={`
-                box-border
-                flex items-center gap-3
-                px-3 py-2
-                w-full
+                flex items-center gap-1.5
+                px-2 py-3
                 rounded-lg
                 bg-gradient-to-br from-theme-v-800 via-theme-v-900 to-theme-v-800
                 ${isCurrentUser(u.nickname) ? "outline-1 outline-theme-gy-200" : ""}
@@ -80,7 +78,7 @@ export const Users = () => {
                 src={u.avatar === "" ? anonAvatar : u.avatar}
                 alt={u.nickname}
               />
-              <span className="text-normal font-bold font-p w-full text-ellipsis overflow-hidden whitespace-nowrap">
+              <span className="text-2xl font-bold font-p">
                 {u.nickname}
                 {isCurrentUser(u.nickname) && " •"}
               </span>

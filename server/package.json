@@ -21,8 +21,8 @@
     "typescript": "^5.9.3"
   },
   "scripts": {
-    "dev": "rm -rf dist && tsc && nodemon dist/index.js",
+    "dev": "nodemon --watch src --exec tsx src/index.ts",
     "start": "node dist/index.js",
-    "build": "rm -rf dist && tsc --build"
+    "build": "cd server && rm -rf dist && tsc --build"
   }
 }

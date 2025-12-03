@@ -35,7 +35,7 @@ export const Avatar = ({
   return (
     <div
       id={id}
-      className={`relative cursor-pointer flex items-center justify-center rounded-full overflow-hidden flex-shrink-0 ${
+      className={`relative cursor-pointer flex items-center justify-center rounded-full overflow-hidden ${
         isSelected
           ? "bg-theme-v-700 outline-2 outline-theme-gy-200 outline-offset-2 scale-105"
           : "bg-theme-v-800 hover:bg-theme-v-700 hover:scale-105"
