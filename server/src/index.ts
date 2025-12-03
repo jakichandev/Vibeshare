@@ -7,18 +7,18 @@ import type { Message } from "vibeshare_types/types/Message";
 
 const app = express();
 const httpServer = createServer(app);
+
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin:
+      process.env.ENVIRONMENT === "development"
+        ? process.env.DEV_CLIENT_URL
+        : process.env.PROD_CLIENT_URL,
   },
 });
 
 let users: User[] = [];
 let messages: Message<string>[] = [];
-const PORT =
-  process.env.ENVIRONMENT === "development"
-    ? process.env.DEV_SERVER_PORT
-    : process.env.PROD_SERVER_PORT;
 
 io.on("connection", (socket) => {
   console.log("Connected " + socket.id);
@@ -60,6 +60,6 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(PORT, () =>
-  console.log(`Server in ascolto sulla porta ${PORT}`)
+httpServer.listen(process.env.ENVIRONMENT === "development" ? process.env.DEV_SERVER_PORT : process.env.PORT, () =>
+  console.log(`Server in ascolto sulla porta ${process.env.ENVIRONMENT === "development" ? process.env.DEV_SERVER_PORT : process.env.PORT}`)
 );
