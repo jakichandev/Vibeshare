@@ -1080,6 +1080,11 @@ vary@^1, vary@^1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
+vibeshare_types@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vibeshare_types/-/vibeshare_types-1.0.0.tgz#286e30f13a7f831002b10d14b8938fe2af0fc635"
+  integrity sha512-JwA4luurs6XjLLxeSvnF8U4lS1CN7GKO3fRSXP/WAGAVssYieR+7B41rdQ6FmIx32HlLHWuGUpz9hlPtNk9jYQ==
+
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"

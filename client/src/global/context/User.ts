@@ -1,6 +1,6 @@
 import { createContext } from "react";
-import type { User, UserError } from "../../../../shared/types/User";
-import type { Message } from "../../../../shared/types/Message";
+import type { User, UserError } from  "vibeshare_types/types/User";
+import type { Message } from "vibeshare_types/types/Message";
 
 
 export interface UserContextType {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { User } from "../../../../../shared/types/User";
+import type { User } from "vibeshare_types/types/User";
 import { useUser } from "../../../global/hooks/useUser";
 import { useSocket } from "../../../global/hooks/useSocket";
 import { JoinForm } from "./JoinForm";

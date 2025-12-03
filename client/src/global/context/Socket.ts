@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import type { Socket } from "socket.io-client";
-import type { User } from "../../../../shared/types/User";
-import type { Message } from "../../../../shared/types/Message";
+import type { User } from "vibeshare_types/types/User";
+import type { Message } from "vibeshare_types/types/Message";
 
 export interface SocketContextType {
   socket: Socket | null;

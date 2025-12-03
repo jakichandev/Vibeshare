@@ -1888,6 +1888,11 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
+vibeshare_types@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vibeshare_types/-/vibeshare_types-1.0.0.tgz#286e30f13a7f831002b10d14b8938fe2af0fc635"
+  integrity sha512-JwA4luurs6XjLLxeSvnF8U4lS1CN7GKO3fRSXP/WAGAVssYieR+7B41rdQ6FmIx32HlLHWuGUpz9hlPtNk9jYQ==
+
 vite@^7.1.7:
   version "7.1.10"
   resolved "https://registry.yarnpkg.com/vite/-/vite-7.1.10.tgz#47c9970f3b0fe9057bfbcfeff8cd370edd7bd41b"

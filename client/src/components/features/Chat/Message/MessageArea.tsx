@@ -1,6 +1,6 @@
 import type React from "react";
 
-import type { User } from "../../../../../../shared/types/User";
+import type { User } from "vibeshare_types/types/User";
 import { useSocket } from "../../../../global/hooks/useSocket";
 import { useEffect, useRef, useState } from "react";
 import { Avatar } from "../../User/Avatar/SelectAvatar";

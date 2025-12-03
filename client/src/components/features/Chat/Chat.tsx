@@ -4,7 +4,7 @@ import { useSocket } from "../../../global/hooks/useSocket";
 import { ChatRoom } from "./ChatRoom";
 import backIcon from "../../../assets/svg/chatBack.svg";
 import sendMsgIcon from "../../../assets/svg/sendMessage.svg";
-import type { User } from "../../../../../shared/types/User";
+import type { User } from "vibeshare_types/types/User";
 import { MessageArea, Message } from "./Message/MessageArea";
 import { Nav } from "../../Theme/Navbar/Nav";
 

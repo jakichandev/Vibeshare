@@ -1,8 +1,8 @@
 import { io, Socket } from "socket.io-client";
 import { SocketContext } from "../context/Socket";
 import { useEffect, useState } from "react";
-import type { Message } from "../../../../shared/types/Message";
-import type { User } from "../../../../shared/types/User";
+import type { Message } from "vibeshare_types/types/Message";
+import type { User } from "vibeshare_types/types/User";
 import { useUser } from "../hooks/useUser";
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
