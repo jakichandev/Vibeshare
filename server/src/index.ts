@@ -2,8 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import "dotenv/config";
-import type { User } from "vibeshare_types/types/User";
-import type { Message } from "vibeshare_types/types/Message";
+import type { User, Message } from "vibeshare_types/types/index";
 
 const app = express();
 const httpServer = createServer(app);
@@ -60,6 +59,16 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(process.env.ENVIRONMENT === "development" ? process.env.DEV_SERVER_PORT : process.env.PORT, () =>
-  console.log(`Server in ascolto sulla porta ${process.env.ENVIRONMENT === "development" ? process.env.DEV_SERVER_PORT : process.env.PORT}`)
+httpServer.listen(
+  process.env.ENVIRONMENT === "development"
+    ? process.env.DEV_SERVER_PORT
+    : process.env.PORT,
+  () =>
+    console.log(
+      `Server in ascolto sulla porta ${
+        process.env.ENVIRONMENT === "development"
+          ? process.env.DEV_SERVER_PORT
+          : process.env.PORT
+      }`
+    )
 );
