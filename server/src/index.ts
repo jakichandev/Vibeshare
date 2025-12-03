@@ -2,7 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import "dotenv/config";
-import type { User, Message } from "vibeshare_types/types/index";
+import type { User, Message } from "vibeshare_types/types/index.ts";
 
 const app = express();
 const httpServer = createServer(app);
