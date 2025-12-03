@@ -13,9 +13,14 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const { setUser } = useUser();
 
   useEffect(() => {
-    const socketInstance = io(`http://localhost:${import.meta.env.VITE_SERVER_PORT}`, {
-      autoConnect: true,
-    });
+    const socketInstance = io(
+      import.meta.env.VITE_ENVIRONMENT === "development"
+        ? import.meta.env.VITE_SERVER_URL
+        : import.meta.env.VITE_PROD_SERVER_URL,
+      {
+        autoConnect: true,
+      }
+    );
 
     socketInstance.on("connect", () => {
       console.log("Connessione tra client e server attiva...");
