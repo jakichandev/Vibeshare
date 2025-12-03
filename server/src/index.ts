@@ -3,6 +3,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import "dotenv/config";
 import type { User, Message } from "vibeshare_types/types/index.ts";
+import cors from "cors";
 
 const app = express();
 const httpServer = createServer(app);
@@ -15,6 +16,8 @@ const io = new Server(httpServer, {
         : process.env.PROD_CLIENT_URL,
   },
 });
+
+app.use(cors());
 
 let users: User[] = [];
 let messages: Message<string>[] = [];
