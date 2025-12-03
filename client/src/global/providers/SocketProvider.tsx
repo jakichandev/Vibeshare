@@ -13,7 +13,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const { setUser } = useUser();
 
   useEffect(() => {
-    const socketInstance = io("http://localhost:3000", {
+    const socketInstance = io(`http://localhost:${import.meta.env.VITE_SERVER_PORT}`, {
       autoConnect: true,
     });
 
