@@ -14,12 +14,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const socketInstance = io(
-      import.meta.env.VITE_ENVIRONMENT === "development"
-        ? import.meta.env.VITE_SERVER_URL
-        : import.meta.env.VITE_PROD_SERVER_URL,
-      {
-        autoConnect: true,
-      }
+      import.meta.env.VITE_SERVER_URL || "http://localhost:3005"
     );
 
     socketInstance.on("connect", () => {
@@ -34,9 +29,12 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       }
     );
 
-    socketInstance.on("messages/receive", (messagesFromServer: Message<string>[]) => {
-      setMessages(messagesFromServer);
-    });
+    socketInstance.on(
+      "messages/receive",
+      (messagesFromServer: Message<string>[]) => {
+        setMessages(messagesFromServer);
+      }
+    );
 
     socketInstance.on("users/list", (data: User[]) => {
       console.log(data);
