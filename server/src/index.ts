@@ -8,16 +8,11 @@ import cors from "cors";
 const app = express();
 const httpServer = createServer(app);
 
-// Estrai l'origine client in una costante
-const CLIENT_URL =
-  process.env.ENVIRONMENT === "development"
-    ? process.env.DEV_CLIENT_URL || "http://localhost:5173"
-    : process.env.PROD_CLIENT_URL;
 
 // CORS per Express (richieste HTTP)
 app.use(
   cors({
-    origin: CLIENT_URL,
+    origin: process.env.CLIENT_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
@@ -26,11 +21,12 @@ app.use(
 // CORS per Socket.IO (WebSocket)
 const io = new Server(httpServer, {
   cors: {
-    origin: CLIENT_URL,
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST"],
     credentials: true,
   },
 });
+
 
 let users: User[] = [];
 let messages: Message<string>[] = [];
