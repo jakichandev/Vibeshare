@@ -8,18 +8,29 @@ import cors from "cors";
 const app = express();
 const httpServer = createServer(app);
 
+// Estrai l'origine client in una costante
+const CLIENT_URL =
+  process.env.ENVIRONMENT === "development"
+    ? process.env.DEV_CLIENT_URL || "http://localhost:5173"
+    : process.env.PROD_CLIENT_URL;
+
+// CORS per Express (richieste HTTP)
+app.use(
+  cors({
+    origin: CLIENT_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);
+
+// CORS per Socket.IO (WebSocket)
 const io = new Server(httpServer, {
   cors: {
-    origin:
-      process.env.ENVIRONMENT === "development"
-        ? process.env.DEV_CLIENT_URL
-        : process.env.PROD_CLIENT_URL,
+    origin: CLIENT_URL,
     methods: ["GET", "POST"],
     credentials: true,
   },
 });
-
-app.use(cors());
 
 let users: User[] = [];
 let messages: Message<string>[] = [];
@@ -36,7 +47,7 @@ io.on("connection", (socket) => {
 
   socket.on("messages/get", () => {
     console.log("Invio messaggi...");
-    io.emit("messages/receive", messages);
+    socket.emit("messages/receive", messages);
   });
 
   socket.on("page/refresh", (user: User) => {
@@ -59,21 +70,15 @@ io.on("connection", (socket) => {
   socket.on("user/left", (user: User) => {
     console.log(`${user.nickname} è adesso uscito`);
     users = users.filter((u) => user.nickname !== u.nickname);
-
     io.emit("users/update", users);
   });
 });
 
-httpServer.listen(
+const PORT =
   process.env.ENVIRONMENT === "development"
-    ? process.env.DEV_SERVER_PORT
-    : process.env.PORT,
-  () =>
-    console.log(
-      `Server in ascolto sulla porta ${
-        process.env.ENVIRONMENT === "development"
-          ? process.env.DEV_SERVER_PORT
-          : process.env.PORT
-      }`
-    )
+    ? process.env.DEV_SERVER_PORT || 3000
+    : process.env.PORT || 10000;
+
+httpServer.listen(PORT, () =>
+  console.log(`Server in ascolto sulla porta ${PORT}`)
 );
